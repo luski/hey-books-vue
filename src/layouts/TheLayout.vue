@@ -1,36 +1,58 @@
 <script setup lang="ts">
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faReceipt, faDollar, faMoneyBill } from '@fortawesome/free-solid-svg-icons';
+import { ref } from 'vue';
+import PageLayout from './PageLayout.vue';
+import { BookOpen, DollarSign, Receipt, X, Moon, Sun } from 'lucide-vue-next';
+import { Button } from '@/components/ui/button';
+import { useColorMode } from '@vueuse/core';
 
 const navigation = [
-  { name: "Accounts", href: "/accounts", icon: faReceipt },
-  { name: "Sales", href: "/sales", icon: faDollar },
-  { name: "Expenses", href: "/expenses", icon: faMoneyBill },
+  { name: 'Accounts', href: '/accounts', icon: BookOpen },
+  { name: 'Sales', href: '/sales', icon: DollarSign },
+  { name: 'Expenses', href: '/expenses', icon: Receipt },
 ];
+
+const sidebarOpen = ref(false);
+const colorMode = useColorMode();
 </script>
 
 <template>
-  <main class="grid-cols-[min-content_1fr] grid min-h-screen">
-
-    <aside class="w-64 border-r border-border bg-sidebar">
-      <div class="border-b border-sidebar-border px-6 py-5">
-        <h1 class="text-2xl font-bold text-sidebar-foreground">HeyBooks</h1>
+  <div class="grid min-h-screen grid-cols-[min-content_1fr]">
+    <aside
+      class="border-border bg-sidebar fixed top-0 left-0 h-screen w-80 border-r transition-transform md:static md:translate-x-0"
+      :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+    >
+      <div class="border-sidebar-border flex items-center border-b px-6 py-5">
+        <h1 class="text-sidebar-foreground text-2xl font-bold">HeyBooks</h1>
+        <Button
+          variant="ghost"
+          @click="colorMode = colorMode === 'light' ? 'dark' : 'light'"
+          class="ml-auto"
+        >
+          <component :is="colorMode === 'light' ? Moon : Sun" class="size-5" />
+        </Button>
+        <Button variant="ghost" @click="sidebarOpen = false" class="-mr-2 md:hidden">
+          <X class="size-5" />
+        </Button>
       </div>
       <nav class="flex-1 space-y-1 px-3 py-4">
         <ul>
           <li v-for="item in navigation" :key="item.name">
-            <RouterLink :to="item.href" :class="[
-              'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
-              'text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground'
-            ]" :exact-active-class="'bg-sidebar-accent text-sidebar-accent-foreground'">
-              <FontAwesomeIcon :icon="item.icon" /> {{ item.name }}
+            <RouterLink
+              :to="item.href"
+              :class="[
+                'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
+                'text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground',
+              ]"
+              :exact-active-class="'bg-sidebar-accent text-sidebar-accent-foreground'"
+            >
+              <component :is="item.icon" :size="20" /> {{ item.name }}
             </RouterLink>
           </li>
         </ul>
       </nav>
     </aside>
-    <div>
+    <PageLayout @toggle-sidebar="sidebarOpen = !sidebarOpen">
       <RouterView />
-    </div>
-  </main>
+    </PageLayout>
+  </div>
 </template>
