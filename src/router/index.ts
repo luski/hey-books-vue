@@ -11,7 +11,6 @@ const routes: RouteRecordRaw[] = [
         path: 'accounts',
         name: 'accounts',
         component: () => import('@/pages/AccountsView.vue'),
-        meta: { title: 'Accounts' },
       },
       {
         path: 'sales',

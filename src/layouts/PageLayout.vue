@@ -16,7 +16,9 @@ const route = useRoute();
       <Button variant="ghost" class="md:hidden" @click="$emit('toggle-sidebar')">
         <Menu class="size-5" />
       </Button>
-      <h1 class="text-foreground text-2xl font-bold md:text-4xl">{{ route.meta.title }}</h1>
+      <h1 class="text-foreground text-2xl font-bold md:text-4xl">
+        {{ route.meta.title }}
+      </h1>
     </header>
     <slot />
   </main>
