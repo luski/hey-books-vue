@@ -1,4 +1,4 @@
-import type { Invoice } from './types'
+import type { Invoice } from './types';
 
 export const invoices: Invoice[] = [
   {
@@ -288,4 +288,4 @@ export const invoices: Invoice[] = [
       { id: '2', description: 'Interactive Elements', amount: 8000 },
     ],
   },
-]
+];
