@@ -1,4 +1,4 @@
-import type { Invoice } from './types';
+import type { Invoice } from '@/model/types';
 
 export const invoices: Invoice[] = [
   {

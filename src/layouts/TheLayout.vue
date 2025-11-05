@@ -21,16 +21,12 @@ const colorMode = useColorMode();
       class="border-border bg-sidebar fixed top-0 left-0 h-screen w-80 border-r transition-transform md:static md:translate-x-0"
       :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
     >
-      <div class="border-sidebar-border flex items-center border-b px-6 py-5">
-        <h1 class="text-sidebar-foreground text-2xl font-bold">HeyBooks</h1>
-        <Button
-          variant="ghost"
-          @click="colorMode = colorMode === 'light' ? 'dark' : 'light'"
-          class="ml-auto"
-        >
+      <div class="border-sidebar-border flex items-center border-b py-5 pr-2.5 pl-6">
+        <h1 class="text-sidebar-foreground mr-auto text-2xl font-bold">HeyBooks</h1>
+        <Button variant="ghost" @click="colorMode = colorMode === 'light' ? 'dark' : 'light'">
           <component :is="colorMode === 'light' ? Moon : Sun" class="size-5" />
         </Button>
-        <Button variant="ghost" @click="sidebarOpen = false" class="-mr-2 md:hidden">
+        <Button variant="ghost" @click="sidebarOpen = false" class="md:hidden">
           <X class="size-5" />
         </Button>
       </div>

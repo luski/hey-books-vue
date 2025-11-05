@@ -1,5 +1,5 @@
-import { invoices } from '@/lib/data';
 import { http, HttpResponse, delay } from 'msw';
+import { invoices } from './data';
 
 export const handlers = [
   http.get(`${location.origin}/api/invoices`, async () => {
