@@ -1,12 +1,10 @@
-import { http, HttpResponse, delay, type DefaultBodyType } from 'msw';
+import { http, HttpResponse, delay, type DefaultBodyType, type PathParams } from 'msw';
 import { invoices } from './data';
-import type { Invoice, Page } from '@/model/types';
+import { sumBy } from 'es-toolkit';
+import type { InvoiceDto, PageDto } from '@/api/dto';
 import z from 'zod';
+import { createLogger } from './logger';
 
-const invoicesRequestParamsSchema = z.object({
-  page: z.string().regex(/^\d+$/),
-  pageSize: z.string().regex(/^\d+$/),
-});
 const singleInvoiceRequestParamsSchema = z.object({
   id: z.string(),
 });
@@ -14,10 +12,19 @@ const singleInvoiceRequestParamsSchema = z.object({
 interface ErrorBody {
   message: string;
 }
-type InvoicesRequestParams = z.infer<typeof invoicesRequestParamsSchema>;
 type SingleInvoiceRequestParams = z.infer<typeof singleInvoiceRequestParamsSchema>;
 
-function createPage<T>(allItems: T[], page: number, pageSize: number): Page<T> {
+interface SummaryResponseBody {
+  overduePayments: number;
+  dueSoonPayments: number;
+}
+
+const logger = createLogger();
+
+function createPage<T>(allItems: T[], page: number, pageSize: number): PageDto<T> {
+  if (Number.isNaN(page) || Number.isNaN(pageSize) || page < 1 || pageSize < 1) {
+    throw new Error('Invalid page or pageSize');
+  }
   const start = (page - 1) * pageSize;
   const end = start + pageSize;
   const data = allItems.slice(start, end);
@@ -30,21 +37,24 @@ function createPage<T>(allItems: T[], page: number, pageSize: number): Page<T> {
 }
 
 export const handlers = [
-  http.get<InvoicesRequestParams, DefaultBodyType, Page<Invoice> | ErrorBody>(
+  http.get<PathParams, DefaultBodyType, PageDto<InvoiceDto> | ErrorBody>(
     `${location.origin}/api/invoices`,
-    async ({ params }) => {
+    async ({ request }) => {
       await delay('real');
+
+      const url = new URL(request.url);
       try {
-        const { page, pageSize } = invoicesRequestParamsSchema.parse(params);
+        const page = z.string().parse(url.searchParams.get('page'));
+        const pageSize = z.string().parse(url.searchParams.get('pageSize'));
         return HttpResponse.json(createPage(invoices, Number(page), Number(pageSize)));
       } catch (e) {
-        console.error('Parsing error:', e);
+        logger.error('Parsing error:', e);
         return HttpResponse.json({ message: 'Invalid query parameters' }, { status: 400 });
       }
     },
   ),
 
-  http.get<SingleInvoiceRequestParams, DefaultBodyType, Invoice | ErrorBody>(
+  http.get<SingleInvoiceRequestParams, DefaultBodyType, InvoiceDto | ErrorBody>(
     `${location.origin}/api/invoices/:id`,
     async ({ params }) => {
       await delay('real');
@@ -59,6 +69,24 @@ export const handlers = [
         console.error('Parsing error:', e);
         return HttpResponse.json({ message: 'Invalid request parameters' }, { status: 400 });
       }
+    },
+  ),
+
+  http.get<PathParams, DefaultBodyType, SummaryResponseBody>(
+    `${location.origin}/api/invoices/summary`,
+    async () => {
+      await delay('real');
+
+      return HttpResponse.json({
+        overduePayments: sumBy(
+          invoices.filter((inv) => inv.status === 'OVERDUE'),
+          (invoice) => invoice.amount,
+        ),
+        dueSoonPayments: sumBy(
+          invoices.filter((inv) => inv.status === 'DUE_TODAY'),
+          (invoice) => invoice.amount,
+        ),
+      });
     },
   ),
 ];
