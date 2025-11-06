@@ -1,5 +1,12 @@
 export type InvoiceStatus = 'OVERDUE' | 'DUE_TODAY' | 'DUE_IN' | 'PAID';
 
+export interface Page<T> {
+  data: T[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
+
 export interface InvoiceItem {
   id: string;
   description: string;
