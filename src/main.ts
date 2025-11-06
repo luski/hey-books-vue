@@ -8,6 +8,10 @@ const app = createApp(App);
 
 app.use(router);
 
-worker.start().then(() => {
-  app.mount('#app');
-});
+worker
+  .start({
+    onUnhandledRequest: 'bypass',
+  })
+  .then(() => {
+    app.mount('#app');
+  });

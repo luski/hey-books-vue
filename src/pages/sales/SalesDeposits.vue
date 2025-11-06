@@ -1,3 +1,5 @@
-<template>
-  <h2>Deposits</h2>
-</template>
+<script lang="ts" setup>
+import UnderConstruction from '@/components/UnderConstruction.vue';
+</script>
+
+<template><UnderConstruction /></template>

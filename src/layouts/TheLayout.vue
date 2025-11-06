@@ -39,7 +39,7 @@ const colorMode = useColorMode();
                 'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
                 'text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground',
               ]"
-              :exact-active-class="'bg-sidebar-accent text-sidebar-accent-foreground'"
+              :active-class="'bg-sidebar-accent text-sidebar-accent-foreground'"
             >
               <component :is="item.icon" :size="20" /> {{ item.name }}
             </RouterLink>
