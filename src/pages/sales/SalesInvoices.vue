@@ -5,7 +5,7 @@ import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import ErrorView from '@/components/ErrorView.vue';
 import { queryOptions } from './queries';
 
-const { data: paymentSummary, isLoading, error } = useQuery(queryOptions.invocePaymentSummary);
+const { data: paymentSummary, isLoading, error } = useQuery(queryOptions.invoicePaymentSummary);
 </script>
 
 <template>
