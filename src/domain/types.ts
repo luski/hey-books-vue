@@ -16,3 +16,8 @@ export interface Invoice {
   invoiceDate: string; // ISO
   items: InvoiceItem[];
 }
+
+export interface PaymentSummary {
+  overduePayments: number;
+  dueSoonPayments: number;
+}

@@ -1,6 +1,6 @@
-import type { Invoice } from '@/model/types';
+import type { InvoiceDto } from '@/api/dto';
 
-export const invoices: Invoice[] = [
+export const invoices: InvoiceDto[] = [
   {
     id: '1995-santa-monica',
     client: 'Santa Monica',
