@@ -1,5 +1,5 @@
 import { it, expect, describe } from 'vitest';
-import { fetchInvoiceById, fetchInvoices } from './endpoints';
+import { fetchInvoiceById, fetchInvoices, fetchInvoicePaymentSummary } from './endpoints';
 import { ApiError } from './errors';
 import { invoices } from '@/mocks/data';
 
@@ -64,5 +64,17 @@ describe('API Endpoints / invoices/:id', () => {
     await expect(fetchInvoiceById('non-existent-id')).rejects.toThrow(
       new ApiError(404, 'Invoice not found'),
     );
+  });
+});
+
+describe('API Endpoints / invoices/summary/payments', () => {
+  it('should fetch invoice payment summary', async () => {
+    const summary = await fetchInvoicePaymentSummary();
+    expect(summary).toMatchInlineSnapshot(`
+      {
+        "dueSoonPayments": 46000,
+        "overduePayments": 63100,
+      }
+    `);
   });
 });

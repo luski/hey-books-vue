@@ -73,7 +73,7 @@ export const handlers = [
   ),
 
   http.get<PathParams, DefaultBodyType, SummaryResponseBody>(
-    `${location.origin}/api/invoices/summary`,
+    `${location.origin}/api/invoices/summary/payments`,
     async () => {
       await delay('real');
 
