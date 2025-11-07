@@ -5,7 +5,6 @@
     "env.d.ts",
     "vitest.d.ts",
     "vitest.setup.ts",
-    "src/**/__tests__/*",
     "src/**/*.test.*",
     "src/**/*.spec.*"
   ],
