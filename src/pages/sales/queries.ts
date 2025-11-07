@@ -4,11 +4,11 @@ const queryKeys = {
   invoicePaymentSummary: ['invoicePaymentSummary'] as const,
 };
 
-const invocePaymentSummary = {
+const invoicePaymentSummary = {
   queryKey: queryKeys.invoicePaymentSummary,
   queryFn: fetchInvoicePaymentSummary,
 };
 
 export const queryOptions = {
-  invocePaymentSummary,
+  invoicePaymentSummary,
 };
