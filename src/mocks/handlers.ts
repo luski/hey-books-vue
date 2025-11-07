@@ -66,7 +66,7 @@ export const handlers = [
         }
         return HttpResponse.json(invoice);
       } catch (e) {
-        console.error('Parsing error:', e);
+        logger.error('Parsing error:', e);
         return HttpResponse.json({ message: 'Invalid request parameters' }, { status: 400 });
       }
     },
