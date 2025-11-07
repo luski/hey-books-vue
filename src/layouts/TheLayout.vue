@@ -16,9 +16,9 @@ const colorMode = useColorMode();
 </script>
 
 <template>
-  <div class="grid min-h-screen grid-cols-[min-content_1fr]">
+  <div class="grid min-h-screen md:grid-cols-[min-content_1fr]">
     <aside
-      class="border-border bg-sidebar fixed top-0 left-0 h-screen w-80 border-r transition-transform md:static md:translate-x-0"
+      class="border-border bg-sidebar fixed top-0 left-0 z-10 h-screen w-80 border-r transition-transform md:static md:translate-x-0"
       :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
     >
       <div class="border-sidebar-border flex items-center border-b py-5 pr-2.5 pl-6">

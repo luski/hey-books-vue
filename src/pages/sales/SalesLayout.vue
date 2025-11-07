@@ -5,10 +5,11 @@ import { ref, watchEffect } from 'vue';
 
 type Tab = 'overview' | 'subscriptions' | 'invoices' | 'deposits';
 
-const currentTab = ref<Tab>('overview');
+const router = useRouter();
+const initialTab = router.currentRoute.value.name!.toString().replace('sales-', '') as Tab;
+const currentTab = ref<Tab>(initialTab);
 
 const subpages = ['overview', 'subscriptions', 'invoices', 'deposits'];
-const router = useRouter();
 
 watchEffect(() => {
   router.push({ name: `sales-${currentTab.value}` });
@@ -16,7 +17,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="border-b border-neutral-300 pt-8 pb-6">
+  <div class="-mx-6 border-b border-neutral-200 px-6 py-8 dark:border-neutral-800">
     <Tabs default-value="account" class="w-[400px]" v-model="currentTab">
       <TabsList>
         <TabsTrigger v-for="page in subpages" :key="page" :value="page" class="capitalize">{{
