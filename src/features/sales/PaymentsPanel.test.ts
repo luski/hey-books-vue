@@ -14,7 +14,7 @@ test('displays provided values correctly', () => {
     },
   });
   expect(screen.getByTestId('due-soon-payments').textContent).toMatch(/due soon\s?\$100\.00/);
-  expect(screen.getByTestId('overdue-payments').textContent).toMatch(/\$300\.00\s?overdue/);
+  expect(screen.getByTestId('overdue-payments').textContent).toMatch(/overdue\s?\$300\.00/);
   expect(screen.getByRole('progressbar')).toHaveAttribute('data-value', '75');
 });
 
@@ -36,6 +36,6 @@ test('rerenders when props change', async () => {
   });
 
   expect(screen.getByTestId('due-soon-payments').textContent).toMatch(/due soon\s?\$200\.00/);
-  expect(screen.getByTestId('overdue-payments').textContent).toMatch(/\$200\.00\s?overdue/);
+  expect(screen.getByTestId('overdue-payments').textContent).toMatch(/overdue\s?\$200\.00/);
   expect(screen.getByRole('progressbar')).toHaveAttribute('data-value', '50');
 });
