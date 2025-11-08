@@ -11,7 +11,7 @@ const route = useRoute();
 </script>
 
 <template>
-  <main class="px-6 py-4">
+  <main class="flex flex-col px-6 pt-4">
     <header class="flex items-center gap-2">
       <Button variant="ghost" class="md:hidden" @click="$emit('toggle-sidebar')">
         <Menu class="size-5" />
