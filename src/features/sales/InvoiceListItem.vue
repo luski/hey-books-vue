@@ -2,7 +2,6 @@
 import { Badge } from '@/components/ui/badge';
 import { formatCurrency } from '@/shared/formatters/currency';
 import type { Invoice } from '@/domain/types';
-import { formatYear } from '@/shared/formatters/date';
 
 interface Props {
   invoice: Invoice;
@@ -30,7 +29,7 @@ const emit = defineEmits<{
       >
     </div>
     <div class="row-start-2 text-sm tracking-wider text-neutral-500 dark:text-neutral-400">
-      {{ formatYear(new Date(invoice.invoiceDate)) }}
+      {{ invoice.year }}
     </div>
     <div class="row-span-2 text-xl font-bold">{{ formatCurrency(invoice.amount) }}</div>
   </button>

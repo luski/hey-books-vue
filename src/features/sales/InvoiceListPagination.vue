@@ -15,15 +15,23 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div
+  <nav
     class="flex items-center gap-2 border-y border-neutral-200 px-6 py-4 dark:border-neutral-800"
   >
     <div class="mr-auto text-sm text-neutral-500">Page {{ page }} of {{ totalPages }}</div>
-    <Button variant="outline" @click="emit('previousPage')" :disabled="page <= 1"
+    <Button
+      data-testid="button-previous"
+      variant="outline"
+      @click="emit('previousPage')"
+      :disabled="page <= 1"
       ><ChevronLeft
     /></Button>
-    <Button variant="outline" @click="emit('nextPage')" :disabled="page >= totalPages"
+    <Button
+      data-testid="button-next"
+      variant="outline"
+      @click="emit('nextPage')"
+      :disabled="page >= totalPages"
       ><ChevronRight
     /></Button>
-  </div>
+  </nav>
 </template>
