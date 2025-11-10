@@ -1,28 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed } from 'vue';
 import { useQuery } from '@tanstack/vue-query';
 import PaymentPanel from '@/features/sales/PaymentsPanel.vue';
 import InvoiceList from '@/features/sales/InvoiceList.vue';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import ErrorView from '@/components/ErrorView.vue';
 import { queryOptions } from './queries';
-import type { Invoice } from '@/domain/types';
-import { invoices as mockedInvoices } from '@/mocks/data';
+import { useInvoices } from './composables/useInvoices';
+import { useRoute, useRouter } from 'vue-router';
 
 const { data: paymentSummary, isLoading, error } = useQuery(queryOptions.invoicePaymentSummary);
+const route = useRoute();
+const router = useRouter();
 
-const invoices: Invoice[] = mockedInvoices.slice(0, 5);
-const page = ref(1);
-const totalPages = 2;
+const page = computed(() => (route.query.page ? Number(route.query.page) : 1));
+
+const { invoices, totalPages } = useInvoices(page);
 
 function handleNextPage() {
-  if (page.value < totalPages) {
-    page.value += 1;
+  if (page.value < totalPages.value) {
+    router.replace({ query: { ...route.query, page: page.value + 1 } });
   }
 }
 function handlePreviousPage() {
   if (page.value > 1) {
-    page.value -= 1;
+    router.replace({ query: { ...route.query, page: page.value - 1 } });
   }
 }
 function handleSelectInvoice(invoiceId: string) {
