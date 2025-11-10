@@ -15,7 +15,7 @@ export function useInvoices(page: MaybeRefOrGetter<number>) {
   });
   const totalPages = computed(() => {
     const totalItems = invoicesData.value?.total || 0;
-    return Math.ceil(totalItems / PAGE_SIZE);
+    return Math.max(1, Math.ceil(totalItems / PAGE_SIZE));
   });
 
   const invoices = computed(() => invoicesData.value?.data || []);

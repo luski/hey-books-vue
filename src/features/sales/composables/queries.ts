@@ -4,7 +4,7 @@ import { toValue, type MaybeRefOrGetter } from 'vue';
 const queryKeys = {
   invoicePaymentSummary: ['invoicePaymentSummary'] as const,
   invoicesPage: (page: MaybeRefOrGetter<number>, pageSize: MaybeRefOrGetter<number>) =>
-    ['invocesPage', page, pageSize] as const,
+    ['invoicesPage', page, pageSize] as const,
 };
 
 const invoicePaymentSummary = {

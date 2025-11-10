@@ -21,15 +21,3 @@ const { invoices, totalPages, isFetching } = useInvoices(() => page);
     v-bind="$attrs"
   />
 </template>
-
-<style scoped>
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.1s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
-</style>
