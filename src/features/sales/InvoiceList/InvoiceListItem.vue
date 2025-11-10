@@ -17,7 +17,7 @@ const emit = defineEmits<{
   <button
     type="button"
     @click="emit('select')"
-    class="grid w-full cursor-pointer grid-cols-[1fr_min-content] items-center px-6 py-5 text-left hover:bg-neutral-100 dark:hover:bg-neutral-800"
+    class="grid w-full cursor-pointer grid-cols-[1fr_min-content] items-center px-6 py-5 text-left transition-all hover:bg-neutral-100 dark:hover:bg-neutral-800"
   >
     <div class="flex items-center gap-4">
       <span class="text-xl font-bold">{{ invoice.client }}</span>

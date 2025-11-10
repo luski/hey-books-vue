@@ -1,14 +1,14 @@
 import { useQuery, keepPreviousData } from '@tanstack/vue-query';
 import { computed, type MaybeRefOrGetter } from 'vue';
-import { queryOptions } from '../queries';
+import { queryOptions } from './queries';
 
 const PAGE_SIZE = 5;
 
 export function useInvoices(page: MaybeRefOrGetter<number>) {
   const {
     data: invoicesData,
-    // isLoading: invoicesLoading,
-    // error: invoicesError,
+    isFetching,
+    error,
   } = useQuery({
     ...queryOptions.invoicesPage(page, () => PAGE_SIZE),
     placeholderData: keepPreviousData,
@@ -20,5 +20,5 @@ export function useInvoices(page: MaybeRefOrGetter<number>) {
 
   const invoices = computed(() => invoicesData.value?.data || []);
 
-  return { invoices, totalPages };
+  return { invoices, isFetching, error, totalPages };
 }

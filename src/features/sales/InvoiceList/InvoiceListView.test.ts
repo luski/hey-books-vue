@@ -1,20 +1,28 @@
 import { render, screen, within } from '@testing-library/vue';
 import { expect, test, vi } from 'vitest';
-import InvoiceList from './InvoiceList.vue';
+import InvoiceListView from './InvoiceListView.vue';
 import { invoices as mockInvoices } from '@/mocks/data';
 
 test('displays a header with the correct title', () => {
-  render(InvoiceList);
+  render(InvoiceListView, {
+    props: {
+      invoices: [],
+      page: 1,
+      totalPages: 1,
+      isFetching: false,
+    },
+  });
 
   expect(screen.getByRole('heading', { name: /Invoice list/i })).toBeInTheDocument();
 });
 
 test('displays a pagination component', () => {
-  render(InvoiceList, {
+  render(InvoiceListView, {
     props: {
       invoices: mockInvoices.slice(0, 3),
       page: 1,
       totalPages: 2,
+      isFetching: false,
     },
   });
   const paginationElement = screen.getByRole('navigation');
@@ -25,11 +33,12 @@ test('displays a pagination component', () => {
 });
 
 test('displays a list with the correct number of invoices', () => {
-  render(InvoiceList, {
+  render(InvoiceListView, {
     props: {
       invoices: mockInvoices.slice(0, 3),
       page: 1,
       totalPages: 1,
+      isFetching: false,
     },
   });
 
@@ -42,7 +51,16 @@ test('displays an empty state when there are no invoices', () => {
 });
 
 test('displays a loading state when invoices are being fetched', () => {
-  // TODO: Test implementation goes here
+  render(InvoiceListView, {
+    props: {
+      invoices: mockInvoices.slice(0, 3),
+      page: 1,
+      totalPages: 1,
+      isFetching: true,
+    },
+  });
+
+  expect(screen.getByText(/Loading invoices.../i)).toBeInTheDocument();
 });
 
 test('displays an error message when there is an error fetching invoices', () => {
@@ -50,7 +68,7 @@ test('displays an error message when there is an error fetching invoices', () =>
 });
 
 test('displays invoice details correctly in the list', () => {
-  render(InvoiceList, {
+  render(InvoiceListView, {
     props: {
       invoices: [
         {
@@ -66,6 +84,7 @@ test('displays invoice details correctly in the list', () => {
       ],
       page: 1,
       totalPages: 1,
+      isFetching: false,
     },
   });
 
@@ -78,13 +97,14 @@ test('displays invoice details correctly in the list', () => {
 test('handles pagination correctly when navigating between pages', async () => {
   const handleNextPage = vi.fn();
   const handlePreviousPage = vi.fn();
-  const { rerender } = render(InvoiceList, {
+  const { rerender } = render(InvoiceListView, {
     props: {
       invoices: mockInvoices.slice(0, 3),
       page: 1,
       totalPages: 2,
       onNextPage: handleNextPage,
       onPreviousPage: handlePreviousPage,
+      isFetching: false,
     },
   });
 

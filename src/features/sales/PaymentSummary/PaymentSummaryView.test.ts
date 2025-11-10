@@ -1,11 +1,9 @@
-import { afterEach, expect, test } from 'vitest';
-import { cleanup, render, screen } from '@testing-library/vue';
-import PaymentsPanel from './PaymentsPanel.vue';
+import { expect, test as PaymentSummaryView } from 'vitest';
+import { render, screen } from '@testing-library/vue';
+import PaymentSummary from './PaymentSummaryView.vue';
 
-afterEach(cleanup);
-
-test('displays provided values correctly', () => {
-  render(PaymentsPanel, {
+PaymentSummaryView('displays provided values correctly', () => {
+  render(PaymentSummary, {
     props: {
       paymentSummary: {
         overduePayments: 300,
@@ -18,8 +16,8 @@ test('displays provided values correctly', () => {
   expect(screen.getByRole('progressbar')).toHaveAttribute('data-value', '75');
 });
 
-test('rerenders when props change', async () => {
-  const { rerender } = render(PaymentsPanel, {
+PaymentSummaryView('rerenders when props change', async () => {
+  const { rerender } = render(PaymentSummary, {
     props: {
       paymentSummary: {
         overduePayments: 300,
