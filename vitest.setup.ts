@@ -4,6 +4,7 @@ import { handlers } from './src/mocks/handlers';
 import { createLogger } from './src/mocks/logger';
 
 import * as matchers from '@testing-library/jest-dom/matchers';
+import { cleanup } from '@testing-library/vue';
 
 expect.extend(matchers);
 vi.mock('./src/mocks/logger');
@@ -20,5 +21,7 @@ const server = setupServer(...handlers);
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 
 afterAll(() => server.close());
+
+afterEach(cleanup);
 
 afterEach(() => server.resetHandlers());

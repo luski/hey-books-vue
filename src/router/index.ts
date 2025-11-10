@@ -6,7 +6,14 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     component: TheLayout,
     children: [
-      { path: '', redirect: { name: 'accounts' } },
+      {
+        path: '',
+        redirect: (to) => ({
+          name: 'accounts',
+          query: to.query,
+          hash: to.hash,
+        }),
+      },
       {
         path: 'accounts',
         name: 'accounts',
