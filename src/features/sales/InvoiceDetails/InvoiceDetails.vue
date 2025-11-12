@@ -1,22 +1,24 @@
 <script setup lang="ts">
-import { invoices } from '@/mocks/data';
 import StateWrapper from '../StateWrapper.vue';
 import InvoiceDetailsView from './InvoiceDetailsView.vue';
-import { computed } from 'vue';
+import { useInvoice } from '../composables/useInvoice';
 
 interface Props {
   invoiceId: string | null;
 }
 
 const { invoiceId } = defineProps<Props>();
-const invoice = computed(() => invoices.find((inv) => inv.id === invoiceId) || null);
+const { invoice, isLoading, isFetching, error } = useInvoice(() => invoiceId);
+
+defineEmits<{ close: [] }>();
 </script>
 
 <template>
-  <StateWrapper :resource="invoice" :is-loading="false" :error="null">
+  <StateWrapper :resource="invoice" :is-loading="isLoading" :error="error">
     <template #default="{ resource }">
-      <InvoiceDetailsView :invoice="resource" />
+      <InvoiceDetailsView :invoice="resource" :is-fetching="isFetching" @close="$emit('close')" />
     </template>
-    <template #error> The invoice details cannot be fetched </template>
+    <template #loading>Loading invoice details...</template>
+    <template #error>The invoice details cannot be fetched</template>
   </StateWrapper>
 </template>

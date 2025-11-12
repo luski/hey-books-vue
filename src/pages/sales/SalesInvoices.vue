@@ -20,6 +20,9 @@ function handlePreviousPage() {
 function handleSelectInvoice(invoiceId: string) {
   router.replace({ query: route.query, params: { id: invoiceId } });
 }
+function handleCloseInvoice() {
+  router.replace({ name: 'sales-invoices', query: route.query });
+}
 </script>
 
 <template>
@@ -36,7 +39,9 @@ function handleSelectInvoice(invoiceId: string) {
           @select-invoice="handleSelectInvoice"
         />
       </div>
-      <div class="bg-sidebar"><InvoiceDetails :invoice-id="invoiceId" /></div>
+      <div class="bg-sidebar">
+        <InvoiceDetails :invoice-id="invoiceId" @close="handleCloseInvoice" />
+      </div>
     </div>
   </div>
 </template>

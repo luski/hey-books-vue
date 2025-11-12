@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import BackdropView from '@/components/BackdropView.vue';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import InvoiceListItem from './InvoiceListItem.vue';
 import InvoiceListPagination from './InvoiceListPagination.vue';
@@ -41,14 +42,9 @@ const handlePreviousPage = () => {
       <h2 class="text-sm font-semibold tracking-wider text-neutral-500 uppercase">Invoice list</h2>
     </div>
     <div class="relative grow">
-      <transition
-        ><div
-          v-if="isFetching"
-          class="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white/80 dark:bg-black/80"
-        >
-          <LoadingSpinner>Loading invoices...</LoadingSpinner>
-        </div></transition
-      >
+      <BackdropView :show="isFetching">
+        <LoadingSpinner>Loading invoices...</LoadingSpinner>
+      </BackdropView>
       <ul class="basis-0 overflow-auto">
         <li v-for="invoice in invoices" :key="invoice.id">
           <InvoiceListItem

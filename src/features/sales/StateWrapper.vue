@@ -13,7 +13,9 @@ const { isLoading, error, resource } = defineProps<Props>();
 
 <template>
   <div class="p-6">
-    <LoadingSpinner v-if="isLoading" />
+    <slot name="loading" v-if="isLoading">
+      <LoadingSpinner />
+    </slot>
     <slot v-if="resource" :resource="resource" />
     <ErrorView v-if="error"><slot name="error" /></ErrorView>
   </div>

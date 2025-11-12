@@ -1,23 +1,34 @@
 <script setup lang="ts">
+import { X } from 'lucide-vue-next';
+import { Button } from '@/components/ui/button';
 import InvoiceStatusBadge from '../InvoiceStatusBadge.vue';
 import { formatCurrency } from '@/shared/formatters/currency';
 import { formatDate } from '@/shared/formatters/date';
+import BackdropView from '@/components/BackdropView.vue';
+import LoadingSpinner from '@/components/LoadingSpinner.vue';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Invoice } from '@/domain/types';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+defineEmits<{ close: [] }>();
+
 interface Props {
   invoice: Invoice;
+  isFetching: boolean;
 }
 
 const { invoice } = defineProps<Props>();
 </script>
 
 <template>
-  <Card class="drop-shadow-md">
+  <Card class="relative drop-shadow-md">
+    <BackdropView :show="isFetching">
+      <LoadingSpinner />
+    </BackdropView>
     <CardHeader>
-      <CardTitle class="mb-4 flex items-start text-5xl font-semibold">
+      <CardTitle class="mb-4 flex items-center gap-6 text-5xl font-semibold">
         <span>{{ invoice.client }}</span>
-        <InvoiceStatusBadge :status="invoice.status" class="ml-auto rounded-xl text-lg" />
+        <InvoiceStatusBadge :status="invoice.status" class="rounded-xl text-lg" />
+        <Button variant="outline" class="ml-auto" @click="$emit('close')"><X /></Button>
       </CardTitle>
       <CardDescription class="flex flex-col gap-4 text-base text-black dark:text-white">
         <p class="text-2xl font-bold text-black dark:text-white">
