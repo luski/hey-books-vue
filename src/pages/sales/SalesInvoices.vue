@@ -18,7 +18,7 @@ function handlePreviousPage() {
   router.replace({ query: { ...route.query, page: page.value - 1 } });
 }
 function handleSelectInvoice(invoiceId: string) {
-  router.replace({ query: route.query, params: { id: invoiceId } });
+  router.replace({ name: 'sales-invoices', query: route.query, params: { id: invoiceId } });
 }
 function handleCloseInvoice() {
   router.replace({ name: 'sales-invoices', query: route.query });

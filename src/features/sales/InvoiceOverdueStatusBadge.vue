@@ -9,6 +9,6 @@ const attrs = useAttrs();
 
 <template>
   <Badge variant="destructive" :class="twMerge('bg-red-700 dark:bg-red-400', attrs.class as string)"
-    >overdue</Badge
+    >OVERDUE</Badge
   >
 </template>

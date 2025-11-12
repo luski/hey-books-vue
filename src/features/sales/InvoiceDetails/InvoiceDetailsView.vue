@@ -24,10 +24,7 @@ watch(
   () => toValue(invoice)?.id,
   async () => {
     await nextTick();
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: 'smooth',
-    });
+    card.value?.$el?.scrollIntoView({ behavior: 'smooth' });
   },
   { flush: 'post', immediate: true },
 );

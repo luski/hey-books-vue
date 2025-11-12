@@ -16,6 +16,9 @@ vi.mocked(createLogger).mockImplementation(() => {
     log: () => {},
   };
 });
+
+// mock window.scrollTo:
+window.scrollTo = vi.fn();
 const server = setupServer(...handlers);
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
