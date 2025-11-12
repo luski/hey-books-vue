@@ -1,26 +1,28 @@
-import { fetchInvoicePaymentSummary, fetchInvoices } from '@/api/endpoints';
+import { queryOptions } from '@tanstack/vue-query';
 import { toValue, type MaybeRefOrGetter } from 'vue';
+import { fetchInvoicePaymentSummary, fetchInvoices, fetchInvoiceById } from '@/api/endpoints';
 
-const queryKeys = {
-  invoicePaymentSummary: ['invoicePaymentSummary'] as const,
-  invoicesPage: (page: MaybeRefOrGetter<number>, pageSize: MaybeRefOrGetter<number>) =>
-    ['invoicesPage', page, pageSize] as const,
-};
-
-const invoicePaymentSummary = {
-  queryKey: queryKeys.invoicePaymentSummary,
+const invoicePaymentSummary = queryOptions({
+  queryKey: ['invoicePaymentSummary'],
   queryFn: fetchInvoicePaymentSummary,
-};
-
-const invoicesPage = (page: MaybeRefOrGetter<number>, pageSize: MaybeRefOrGetter<number>) => ({
-  queryKey: queryKeys.invoicesPage(page, pageSize),
-  queryFn: ({ queryKey }: { queryKey: ReturnType<typeof queryKeys.invoicesPage> }) => {
-    const [, page, pageSize] = queryKey;
-    return fetchInvoices(toValue(page), toValue(pageSize));
-  },
 });
 
-export const queryOptions = {
+const invoices = (page: MaybeRefOrGetter<number>, pageSize: MaybeRefOrGetter<number>) =>
+  queryOptions({
+    queryKey: ['invoicesPage', page, pageSize] as const,
+    queryFn: ({ queryKey: [, page, pageSize] }) => fetchInvoices(toValue(page), toValue(pageSize)),
+  });
+
+const invoice = (invoiceId: MaybeRefOrGetter<string | null>) => {
+  return queryOptions({
+    queryKey: ['invoice', invoiceId] as const,
+    enabled: () => !!toValue(invoiceId),
+    queryFn: ({ queryKey: [, invoiceId] }) => fetchInvoiceById(toValue(invoiceId) as string),
+  });
+};
+
+export const queries = {
   invoicePaymentSummary,
-  invoicesPage,
+  invoices,
+  invoice,
 };

@@ -38,7 +38,7 @@ const routes: RouteRecordRaw[] = [
             meta: { title: 'Subscriptions' },
           },
           {
-            path: 'invoices',
+            path: 'invoices/:id?',
             name: 'sales-invoices',
             component: () => import('@/pages/sales/SalesInvoices.vue'),
             meta: { title: 'Invoices' },
@@ -65,8 +65,8 @@ const routes: RouteRecordRaw[] = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: routes,
-  scrollBehavior() {
-    return { top: 0 };
+  scrollBehavior(to, from, savedPosition) {
+    return savedPosition ?? false;
   },
 });
 

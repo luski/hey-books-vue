@@ -25,8 +25,8 @@ watch(
 </script>
 
 <template>
-  <div class="-mx-6 border-b border-neutral-200 px-6 py-8 dark:border-neutral-800">
-    <Tabs default-value="account" class="w-[400px]" v-model="currentTab">
+  <div class="-mx-6 min-w-0 border-b border-neutral-200 px-6 py-8 dark:border-neutral-800">
+    <Tabs default-value="account" v-model="currentTab" class="overflow-auto">
       <TabsList>
         <TabsTrigger v-for="page in subpages" :key="page" :value="page" class="capitalize">{{
           page
