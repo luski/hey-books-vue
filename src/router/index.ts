@@ -66,6 +66,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: routes,
   scrollBehavior(to, from, savedPosition) {
+    // NOTE: false prevents automatic scrolling, allowing components to control scroll position (e.g., for the invoice detail view auto-scroll feature).
     return savedPosition ?? false;
   },
 });

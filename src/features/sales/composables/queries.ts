@@ -17,7 +17,7 @@ const invoice = (invoiceId: MaybeRefOrGetter<string | null>) => {
   return queryOptions({
     queryKey: ['invoice', invoiceId] as const,
     enabled: () => !!toValue(invoiceId),
-    queryFn: ({ queryKey: [, invoiceId] }) => fetchInvoiceById(toValue(invoiceId) as string),
+    queryFn: ({ queryKey: [, invoiceId] }) => fetchInvoiceById(toValue(invoiceId)!),
   });
 };
 
