@@ -12,7 +12,7 @@ const { isLoading, error, resource } = defineProps<Props>();
 </script>
 
 <template>
-  <div class="p-6">
+  <div>
     <slot name="loading" v-if="isLoading">
       <LoadingSpinner />
     </slot>

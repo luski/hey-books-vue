@@ -26,10 +26,10 @@ function handleCloseInvoice() {
 </script>
 
 <template>
-  <div class="@container -mx-6 flex grow flex-col">
+  <div class="@container/invoices-viewport -mx-6 flex grow flex-col">
     <PaymentSummary />
     <hr />
-    <div class="grid grow @min-4xl:grid-cols-2">
+    <div class="grid grow @min-4xl/invoices-viewport:grid-cols-2">
       <div class="border-r border-neutral-300 dark:border-neutral-800">
         <InvoiceList
           :activeInvoiceId="invoiceId"

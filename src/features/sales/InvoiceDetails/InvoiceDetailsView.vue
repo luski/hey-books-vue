@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { X } from 'lucide-vue-next';
 import { Button } from '@/components/ui/button';
-import InvoiceStatusBadge from '../InvoiceStatusBadge.vue';
 import { formatCurrency } from '@/shared/formatters/currency';
 import { formatDate } from '@/shared/formatters/date';
 import BackdropView from '@/components/BackdropView.vue';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
+import InvoiceOverdueStatusBadge from '../InvoiceOverdueStatusBadge.vue';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Invoice } from '@/domain/types';
+import { nextTick, ref, toValue, watch } from 'vue';
 
 defineEmits<{ close: [] }>();
 
@@ -17,17 +18,33 @@ interface Props {
 }
 
 const { invoice } = defineProps<Props>();
+const card = ref<InstanceType<typeof Card> | null>(null);
+
+watch(
+  () => toValue(invoice)?.id,
+  async () => {
+    await nextTick();
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth',
+    });
+  },
+  { flush: 'post', immediate: true },
+);
 </script>
 
 <template>
-  <Card class="relative drop-shadow-md">
+  <Card
+    class="relative drop-shadow-md @max-4xl/invoices-viewport:rounded-none @min-4xl/invoices-viewport:m-6"
+    ref="card"
+  >
     <BackdropView :show="isFetching">
       <LoadingSpinner />
     </BackdropView>
     <CardHeader>
       <CardTitle class="mb-4 flex items-center gap-6 text-5xl font-semibold">
         <span>{{ invoice.client }}</span>
-        <InvoiceStatusBadge :status="invoice.status" class="rounded-xl text-lg" />
+        <InvoiceOverdueStatusBadge v-if="invoice.status === 'OVERDUE'" class="rounded-xl text-lg" />
         <Button variant="outline" class="ml-auto" @click="$emit('close')"><X /></Button>
       </CardTitle>
       <CardDescription class="flex flex-col gap-4 text-base text-black dark:text-white">

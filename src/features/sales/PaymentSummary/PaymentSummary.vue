@@ -7,7 +7,7 @@ const { paymentSummary, isLoading, error } = usePaymentSummary();
 </script>
 
 <template>
-  <StateWrapper :is-loading="isLoading" :error="error" :resource="paymentSummary">
+  <StateWrapper :is-loading="isLoading" :error="error" :resource="paymentSummary" class="p-6">
     <template #default="{ resource }">
       <PaymentSummaryView :payment-summary="resource" />
     </template>

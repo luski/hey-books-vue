@@ -1,24 +1,11 @@
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/vue';
+import { screen, waitForElementToBeRemoved } from '@testing-library/vue';
 import { expect, test } from 'vitest';
 import InvoiceDetails from './InvoiceDetails.vue';
 import { invoices } from '@/mocks/data';
 import type { Invoice } from '@/domain/types';
-import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query';
+import { renderWithVueQuery } from '@/test/utils';
 
 const existingInvoice = invoices[4] as Invoice;
-
-export function renderWithVueQuery<C, O>(component: C, options: O) {
-  const queryClient = new QueryClient({
-    defaultOptions: { queries: { retry: false } },
-  });
-
-  return render(component, {
-    ...options,
-    global: {
-      plugins: [[VueQueryPlugin, { queryClient }]],
-    },
-  });
-}
 
 test('fetches the invoice details and displays them correctly', async () => {
   renderWithVueQuery(InvoiceDetails, {

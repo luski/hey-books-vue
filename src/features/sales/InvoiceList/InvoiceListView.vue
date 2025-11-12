@@ -45,7 +45,7 @@ const handlePreviousPage = () => {
       <BackdropView :show="isFetching">
         <LoadingSpinner>Loading invoices...</LoadingSpinner>
       </BackdropView>
-      <ul class="basis-0 overflow-auto">
+      <ul class="@container basis-0 overflow-auto">
         <li v-for="invoice in invoices" :key="invoice.id">
           <InvoiceListItem
             :is-active="invoice.id === activeInvoiceId"
