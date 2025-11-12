@@ -38,7 +38,7 @@ const routes: RouteRecordRaw[] = [
             meta: { title: 'Subscriptions' },
           },
           {
-            path: 'invoices',
+            path: 'invoices/:id?',
             name: 'sales-invoices',
             component: () => import('@/pages/sales/SalesInvoices.vue'),
             meta: { title: 'Invoices' },

@@ -7,11 +7,12 @@ import type { Invoice } from '@/domain/types';
 interface Props {
   page: number;
   invoices: Invoice[];
+  activeInvoiceId?: string | null;
   totalPages: number;
   isFetching: boolean;
 }
 
-const { page, invoices, totalPages, isFetching } = defineProps<Props>();
+const { page, invoices, activeInvoiceId, totalPages, isFetching } = defineProps<Props>();
 
 const emit = defineEmits<{
   nextPage: [];
@@ -50,7 +51,11 @@ const handlePreviousPage = () => {
       >
       <ul class="basis-0 overflow-auto">
         <li v-for="invoice in invoices" :key="invoice.id">
-          <InvoiceListItem :invoice="invoice" @select="emit('selectInvoice', invoice.id)" />
+          <InvoiceListItem
+            :is-active="invoice.id === activeInvoiceId"
+            :invoice="invoice"
+            @select="emit('selectInvoice', invoice.id)"
+          />
         </li>
       </ul>
     </div>

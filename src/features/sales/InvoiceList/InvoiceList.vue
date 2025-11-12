@@ -4,6 +4,7 @@ import InvoiceListView from './InvoiceListView.vue';
 
 interface Props {
   page: number;
+  activeInvoiceId?: string | null;
 }
 
 defineOptions({ inheritAttrs: false });
@@ -16,6 +17,7 @@ const { invoices, totalPages, isFetching } = useInvoices(() => page);
   <InvoiceListView
     :page="page"
     :invoices="invoices"
+    :active-invoice-id="activeInvoiceId"
     :total-pages="totalPages"
     :is-fetching="isFetching"
     v-bind="$attrs"
