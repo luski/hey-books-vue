@@ -8,7 +8,7 @@ import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import InvoiceOverdueStatusBadge from '../InvoiceOverdueStatusBadge.vue';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Invoice } from '@/domain/types';
-import { nextTick, ref, toValue, watch } from 'vue';
+import { nextTick, toValue, useTemplateRef, watch } from 'vue';
 
 defineEmits<{ close: [] }>();
 
@@ -18,13 +18,13 @@ interface Props {
 }
 
 const { invoice } = defineProps<Props>();
-const card = ref<InstanceType<typeof Card> | null>(null);
+const cardRef = useTemplateRef<typeof Card>('card');
 
 watch(
   () => toValue(invoice)?.id,
   async () => {
     await nextTick();
-    card.value?.$el?.scrollIntoView({ behavior: 'smooth' });
+    cardRef.value?.$el.scrollIntoView({ behavior: 'smooth' });
   },
   { flush: 'post', immediate: true },
 );
@@ -32,16 +32,21 @@ watch(
 
 <template>
   <Card
-    class="relative drop-shadow-md @max-4xl/invoices-viewport:rounded-none @min-4xl/invoices-viewport:m-6"
+    class="@container/card-viewport relative drop-shadow-md @max-4xl/invoices-viewport:rounded-none @4xl/invoices-viewport:m-6"
     ref="card"
   >
     <BackdropView :show="isFetching">
       <LoadingSpinner />
     </BackdropView>
     <CardHeader>
-      <CardTitle class="mb-4 flex items-center gap-6 text-5xl font-semibold">
+      <CardTitle
+        class="mb-4 flex items-center gap-6 text-xl font-semibold @2xl/card-viewport:text-4xl"
+      >
         <span>{{ invoice.client }}</span>
-        <InvoiceOverdueStatusBadge v-if="invoice.status === 'OVERDUE'" class="rounded-xl text-lg" />
+        <InvoiceOverdueStatusBadge
+          v-if="invoice.status === 'OVERDUE'"
+          class="@2xl/card-viewport:rounded-xl @2xl/card-viewport:text-lg"
+        />
         <Button variant="outline" class="ml-auto" @click="$emit('close')"><X /></Button>
       </CardTitle>
       <CardDescription class="flex flex-col gap-4 text-base text-black dark:text-white">
