@@ -4,7 +4,7 @@ import ErrorView from '@/components/ErrorView.vue';
 
 interface Props {
   isLoading: boolean;
-  error: Error | null;
+  error: string | null;
   resource: T | null;
 }
 
@@ -17,7 +17,9 @@ const { isLoading, error, resource } = defineProps<Props>();
       <LoadingSpinner />
     </slot>
     <slot v-if="resource" :resource="resource" />
-    <ErrorView v-if="error"><slot name="error" /></ErrorView>
+    <slot name="error" v-if="error">
+      <ErrorView>{{ error }}</ErrorView>
+    </slot>
     <slot name="placeholder" v-if="!isLoading && !error && !resource" />
   </div>
 </template>
