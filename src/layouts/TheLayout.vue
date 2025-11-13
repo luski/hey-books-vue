@@ -12,6 +12,9 @@ const navigation = [
 ];
 
 const sidebarOpen = ref(false);
+const handleCloseSidebar = () => {
+  sidebarOpen.value = false;
+};
 const colorMode = useColorMode();
 </script>
 
@@ -26,7 +29,7 @@ const colorMode = useColorMode();
         <Button variant="ghost" @click="colorMode = colorMode === 'light' ? 'dark' : 'light'">
           <component :is="colorMode === 'light' ? Moon : Sun" class="size-5" />
         </Button>
-        <Button variant="ghost" @click="sidebarOpen = false" class="md:hidden">
+        <Button variant="ghost" @click="handleCloseSidebar" class="md:hidden">
           <X class="size-5" />
         </Button>
       </div>
@@ -34,6 +37,7 @@ const colorMode = useColorMode();
         <ul>
           <li v-for="item in navigation" :key="item.name">
             <RouterLink
+              @click="handleCloseSidebar"
               :to="item.href"
               :class="[
                 'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
