@@ -24,7 +24,7 @@ watch(
   () => toValue(invoice)?.id,
   async () => {
     await nextTick();
-    cardRef.value?.$el.scrollIntoView({ behavior: 'smooth' });
+    cardRef.value?.$el?.scrollIntoView({ behavior: 'smooth' });
   },
   { flush: 'post', immediate: true },
 );
