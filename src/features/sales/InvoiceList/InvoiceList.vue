@@ -7,7 +7,6 @@ interface Props {
   activeInvoiceId?: string | null;
 }
 
-defineOptions({ inheritAttrs: false });
 const { page } = defineProps<Props>();
 
 const { invoices, totalPages, isFetching } = useInvoices(() => page);
