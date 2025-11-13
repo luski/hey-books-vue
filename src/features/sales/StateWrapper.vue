@@ -18,5 +18,6 @@ const { isLoading, error, resource } = defineProps<Props>();
     </slot>
     <slot v-if="resource" :resource="resource" />
     <ErrorView v-if="error"><slot name="error" /></ErrorView>
+    <slot name="placeholder" v-if="!isLoading && !error && !resource" />
   </div>
 </template>
